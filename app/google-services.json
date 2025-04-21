@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "188544640288",
+    "project_id": "travel-1665a",
+    "storage_bucket": "travel-1665a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:188544640288:android:f5d00492ff72bff1496345",
+        "android_client_info": {
+          "package_name": "com.example.ez25"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMgftZ5IZ4xSDcwu706w1m8v7_HGNpRCw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:188544640288:android:1f01bfd8a7c6009f496345",
+        "android_client_info": {
+          "package_name": "com.example.travel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMgftZ5IZ4xSDcwu706w1m8v7_HGNpRCw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
