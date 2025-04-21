@@ -6,16 +6,9 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class Guide implements Parcelable {
-    private String photo;
-    private String tittle;
-
-    public Guide() {
-    }
-
-    public Guide(String photo, String tittle, String description, String price, double rating, String type, String productID) {
-        this.photo = photo;
-        this.tittle = tittle;
-
+    protected Guide(Parcel in) {
+        name = in.readString();
+        imageUrl = in.readString();
     }
 
     public static final Creator<Guide> CREATOR = new Creator<Guide>() {
@@ -31,40 +24,42 @@ public class Guide implements Parcelable {
     };
 
     @Override
-    public String toString() {
-        return "Guide{" +
-                "photo='" + photo + '\'' +
-                ", tittle='" + tittle + '\'' +
-                '}';
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    public String getTittle() {
-        return tittle;
-    }
-
-    public void setTittle(String tittle) {
-        this.tittle = tittle;
-    }
-
-    protected Guide(@NonNull Parcel in) {
-        photo = in.readString();
-        tittle = in.readString();
-    }
-
     public int describeContents() {
         return 0;
     }
 
+    @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeString(photo);
-        dest.writeString(tittle);
+        dest.writeString(name);
+        dest.writeString(imageUrl);
+    }
+
+    private String name;
+        private String imageUrl;
+
+    public Guide() {
+    }
+
+    public Guide(String name, String imageUrl) {
+            this.name = name;
+            this.imageUrl = imageUrl;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getImageUrl() {
+            return imageUrl;
+        }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
+
+
