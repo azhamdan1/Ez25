@@ -94,7 +94,7 @@
             android:layout_height="283dp"
             android:layout_marginStart="45dp"
             android:layout_marginEnd="45dp"
-            android:src="@drawable/wish_it"
+            android:src="@drawable/img"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
