@@ -6,8 +6,21 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class Guide implements Parcelable {
+    private String name;
+    private String imageUrl;
+    private String description;
+
+    public Guide() {
+    }
+    public Guide(String imageUrl, String name, String description) {
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.description = description;
+
+    }
     protected Guide(Parcel in) {
         name = in.readString();
+        description = in.readString();
         imageUrl = in.readString();
     }
 
@@ -32,12 +45,7 @@ public class Guide implements Parcelable {
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(imageUrl);
-    }
-
-    private String name;
-        private String imageUrl;
-
-    public Guide() {
+        dest.writeString(description);
     }
 
     public Guide(String name, String imageUrl) {
@@ -59,6 +67,23 @@ public class Guide implements Parcelable {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Guide{" +
+                "name='" + name + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
 

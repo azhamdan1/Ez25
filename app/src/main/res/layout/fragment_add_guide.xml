@@ -1,14 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Guide.AddGuideFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <ImageView
+        android:id="@+id/ivShowAddGuide"
+        android:layout_width="189dp"
+        android:layout_height="228dp"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/ic_menu_gallery"
+        app:layout_constraintBottom_toTopOf="@+id/etTittleAddGuide"
+        tools:layout_editor_absoluteX="111dp" />
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/etTittleAddGuide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="472dp"
+        android:ems="10"
+        android:hint="Tittle"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/etDescriptionAddGuide"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <EditText
+        android:id="@+id/etDescriptionAddGuide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Description"
+        android:inputType="text"
+        tools:layout_editor_absoluteX="100dp"
+        tools:layout_editor_absoluteY="423dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAddAddProductFragment"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="116dp"
+        android:text="Add"
+        app:backgroundTint="@color/theme_color"
+        app:cornerRadius="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etDescriptionAddGuide"
+        app:layout_constraintVertical_bias="0.453" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

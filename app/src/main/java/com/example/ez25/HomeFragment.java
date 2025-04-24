@@ -2,11 +2,28 @@ package com.example.ez25;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.example.ez25.Guide.AddGuideFragment;
+import com.example.ez25.Guide.Guide;
+import com.example.ez25.Guide.GuideAdapter;
+import com.example.ez25.Servicies.FirebaseServices;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +31,11 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
+    FirebaseServices fbs;
+    private RecyclerView rvGuidsHome;
+    private ImageView ivAddGuidHome;
+    ArrayList<Guide> Guids;
+    GuideAdapter adapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,5 +82,57 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        connectComponents();
+        setupAdapter();
+    }
+
+    private void connectComponents() {
+        ivAddGuidHome = getView().findViewById(R.id.ivAddGuidHome);
+
+        ivAddGuidHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoAddFragment();
+            }
+        });
+
+    }
+
+    private void setupAdapter() {
+        fbs = FirebaseServices.getInstance();
+        rvGuidsHome = getView().findViewById(R.id.rvGuidsHome);
+        ivAddGuidHome = getView().findViewById(R.id.ivAddGuidHome);
+
+        Guids = new ArrayList<>();
+        adapter = new GuideAdapter(getActivity(), Guids);
+        rvGuidsHome.setAdapter(adapter);fbs.getFire().collection("guids").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (DocumentSnapshot dataSnapshot: queryDocumentSnapshots.getDocuments()){
+                    Guide product = dataSnapshot.toObject(Guide.class);
+
+                    Guids.add(product);
+                }
+                adapter.notifyDataSetChanged();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getActivity(), "No data available", Toast.LENGTH_SHORT).show();
+                Log.e("HomeFragment", e.getMessage());
+            }
+        });
+    }
+
+    private void gotoAddFragment() {
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frameLayoutMain, new AddGuideFragment());
+        ft.addToBackStack(null);
+        ft.commit();
     }
 }
