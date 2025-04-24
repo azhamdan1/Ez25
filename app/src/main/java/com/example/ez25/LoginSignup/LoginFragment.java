@@ -2,13 +2,31 @@ package com.example.ez25.LoginSignup;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.ez25.HomeFragment;
 import com.example.ez25.R;
+import com.example.ez25.Servicies.FirebaseServices;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +34,11 @@ import com.example.ez25.R;
  * create an instance of this fragment.
  */
 public class LoginFragment extends Fragment {
+
+    FirebaseServices fbs;
+    Button btnLogin, btnSignup, btnForgot, btnGuest;
+    EditText etEmail, etPassword;
+    String userID;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -62,5 +85,113 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        connectComponents();
+    }
+
+    private void connectComponents(){
+        fbs = FirebaseServices.getInstance();
+        etPassword = getView().findViewById(R.id.etPasswordLogin);
+        etEmail = getView().findViewById(R.id.etEmailLogin);
+        btnForgot = getView().findViewById(R.id.btnForgotLogin);
+        btnLogin = getView().findViewById(R.id.btnLoginLogin);
+        btnSignup = getView().findViewById(R.id.btnSignupLogin);
+        btnGuest = getView().findViewById(R.id.btnGuestLogin);
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = etEmail.getText().toString();
+                String password = etPassword.getText().toString();
+                //Data validation
+                if (email.trim().isEmpty() && password.trim().isEmpty()) {
+                    Toast.makeText(getActivity(), "Some Fields are empty!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                //Login procedure
+                fbs.getAuth().signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        gotoHomeFragment();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), "Check the email or password you entered!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+        btnSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gotoSignupFragment();
+            }
+        });
+
+        btnForgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gotoForgotFragment();
+            }
+        });
+        btnGuest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fbs.getAuth().signInAnonymously().addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        //add user to database
+                        userID = fbs.getAuth().getCurrentUser().getUid();
+                        DocumentReference documentReference = fbs.getFire().collection("Users").document(userID);
+                        Map<String, Object> userMap = new HashMap<>();
+                        userMap.put("firstName", "Guest");
+                        userMap.put("lastName", "");
+                        userMap.put("phoneNumber", "");
+                        userMap.put("guest", true);
+                        userMap.put("admin", false);
+                        documentReference.set(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                gotoHomeFragment();
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getActivity(), "Failed to login", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    }
+                });
+
+
+            }
+        });
+    }
+    private void gotoSignupFragment() {
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frameLayoutMain, new SignUpFragment());
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
+    private void gotoForgotFragment() {
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frameLayoutMain, new ForgotPasswordFragment());
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
+    private void gotoHomeFragment() {
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frameLayoutMain, new HomeFragment());
+        ft.commit();
     }
 }

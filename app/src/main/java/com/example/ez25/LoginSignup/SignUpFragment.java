@@ -1,14 +1,30 @@
 package com.example.ez25.LoginSignup;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.ez25.R;
+import com.example.ez25.Servicies.FirebaseServices;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.firestore.DocumentReference;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +32,10 @@ import com.example.ez25.R;
  * create an instance of this fragment.
  */
 public class SignUpFragment extends Fragment {
+    FirebaseServices fbs;
+    String userID;
+    EditText etPassword, etEmail, etFirstName, etLastName, etPhoneNumber;
+    Button btnSignup;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -62,5 +82,86 @@ public class SignUpFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_sign_up, container, false);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        connectComponents();
+    }
+
+    private void connectComponents(){
+        fbs = FirebaseServices.getInstance();
+        etPassword = getView().findViewById(R.id.etPasswordSignup);
+        etEmail = getView().findViewById(R.id.etEmailSignup);
+        etFirstName = getView().findViewById(R.id.etFirstNameSignup);
+        etLastName = getView().findViewById(R.id.etLastNameSignup);
+        etPhoneNumber = getView().findViewById(R.id.etPhoneNumberSignup);
+        btnSignup = getView().findViewById(R.id.btnSignupSignup);
+        btnSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = etEmail.getText().toString();
+                String password = etPassword.getText().toString();
+                String firstName = etFirstName.getText().toString();
+                String lastName = etLastName.getText().toString();
+                String phoneNumber = etPhoneNumber.getText().toString();
+                //data validation
+                if (email.trim().isEmpty()
+                        || firstName.trim().isEmpty()
+                        || lastName.trim().isEmpty()
+                        || phoneNumber.trim().isEmpty()
+                        || password.trim().isEmpty()){
+                    Toast.makeText(getActivity(), "Some fields are empty!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // signup procedure
+                fbs.getAuth().createUserWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        Toast.makeText(getActivity(), "Succeeded", Toast.LENGTH_SHORT).show();
+
+                        //add user to database
+                        userID = fbs.getAuth().getCurrentUser().getUid();
+                        DocumentReference documentReference = fbs.getFire().collection("Users").document(userID);
+                        Map<String, Object> userMap = new HashMap<>();
+                        userMap.put("firstName", firstName);
+                        userMap.put("lastName", lastName);
+                        userMap.put("phoneNumber", phoneNumber);
+                        userMap.put("guest",false);
+                        userMap.put("admin",false);
+                        documentReference.set(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(getActivity(), "User added successfully", Toast.LENGTH_SHORT).show();
+                                gotoLoginFragment();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getActivity(), "Failed to add user to database", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        if (password.length() < 6){
+                            Toast.makeText(getActivity(), "Password must be at least 6 characters!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        Toast.makeText(getActivity(), "A valid email is required!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+    private void gotoLoginFragment(){
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frameLayoutMain, new LoginFragment());
+        ft.addToBackStack(null);
+        ft.commit();
     }
 }

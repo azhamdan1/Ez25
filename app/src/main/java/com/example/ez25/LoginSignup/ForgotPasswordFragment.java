@@ -2,13 +2,21 @@ package com.example.ez25.LoginSignup;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.ez25.R;
+import com.example.ez25.Servicies.FirebaseServices;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +24,9 @@ import com.example.ez25.R;
  * create an instance of this fragment.
  */
 public class ForgotPasswordFragment extends Fragment {
+    FirebaseServices fbs;
+    EditText etEmail;
+    Button btnSend;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -63,4 +74,43 @@ public class ForgotPasswordFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_forgot_password, container, false);
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        connectComponents();
+    }
+
+    private void connectComponents(){
+        fbs = FirebaseServices.getInstance();
+        etEmail = getView().findViewById(R.id.etEmailForgot);
+        btnSend = getView().findViewById(R.id.btnSendForgot);
+
+
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = etEmail.getText().toString();
+                fbs.getAuth().sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(getActivity(), "We have send you an email to reset your password", Toast.LENGTH_SHORT).show();
+                        gotoLoginFragment();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), "The email you entered does not exist!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+    private void gotoLoginFragment(){
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frameLayoutMain, new LoginFragment());
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
 }
