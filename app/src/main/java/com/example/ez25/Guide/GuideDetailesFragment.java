@@ -3,12 +3,18 @@ package com.example.ez25.Guide;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.ez25.HomeFragment;
 import com.example.ez25.R;
+import com.example.ez25.Servicies.FirebaseServices;
+import com.squareup.picasso.Picasso;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +22,10 @@ import com.example.ez25.R;
  * create an instance of this fragment.
  */
 public class GuideDetailesFragment extends Fragment {
+    private FirebaseServices fbs;
+    private ImageView ivPhoto;
+    private TextView tvTitle, tvDescription;
+    private Guide Guide;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -62,5 +72,38 @@ public class GuideDetailesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_guide_detailes, container, false);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        connectComponents();
+    }
+
+    private void connectComponents() {
+        fbs = new FirebaseServices().getInstance();
+        ivPhoto = getActivity().findViewById(R.id.ivPhotoGuideDetails);
+        tvTitle = getActivity().findViewById(R.id.tvTitleGuideDetails);
+        tvDescription = getActivity().findViewById(R.id.tvDescriptionGuideDetails);
+
+        Bundle args = getArguments();
+        if (args != null) {
+            Guide = args.getParcelable("guide");
+            if (Guide != null) {
+                tvTitle.setText(Guide.getName());
+                tvDescription.setText(Guide.getDescription());
+                if (Guide.getImageUrl() == null || Guide.getImageUrl().isEmpty()) {
+                    Picasso.get().load(R.drawable.ic_menu_gallery).into(ivPhoto);
+                } else {
+                    Picasso.get().load(Guide.getImageUrl()).into(ivPhoto);
+                }
+            }
+        }
+    }
+    private void gotoHomeFragment() {
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frameLayoutMain,new HomeFragment());
+        ft.addToBackStack(null);
+        ft.commit();
     }
 }

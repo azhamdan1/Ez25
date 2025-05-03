@@ -13,7 +13,7 @@
         android:padding="8dp">
 
         <ImageView
-            android:id="@+id/ivPhotoProItem"
+            android:id="@+id/ivPhotoGuideItem"
             android:layout_width="2dp"
             android:layout_height="80dp"
             android:layout_weight="1"
@@ -27,54 +27,12 @@
             android:padding="8dp">
 
             <TextView
-                android:id="@+id/tvTitleProItem"
+                android:id="@+id/tvTitleGuideItem"
                 android:layout_width="match_parent"
                 android:layout_height="62dp"
                 android:text="Tile Name"
                 android:textStyle="bold" />
 
-            <!--<TextView
-                android:id="@+id/tvDescriptionProItem"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Description" />-->
-
-            <!--Rating Bar -->
-
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
-
-    <!--<?xml version="1.0" encoding="utf-8"?>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tvTitleProItem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/tvPriceProItem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/tvDescriptionProItem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <ImageView
-            android:id="@+id/ivPhotoProItem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/ic_menu_gallery" />
-
-    </LinearLayout>-->

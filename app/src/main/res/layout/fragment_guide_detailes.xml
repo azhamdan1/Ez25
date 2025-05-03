@@ -6,7 +6,7 @@
     android:id="@+id/svProductDetails"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Pages.ProductDetailsFragment">
+    tools:context="com.example.ez25.Guide.GuideDetailesFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,14 +15,14 @@
         android:padding="16dp">
 
         <ImageView
-            android:id="@+id/ivPhotoProductDetails"
+            android:id="@+id/ivPhotoGuideDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
             tools:src="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/tvTitleProductDetails"
+            android:id="@+id/tvTitleGuideDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -32,7 +32,7 @@
             android:textColor="@android:color/black" />
 
         <TextView
-            android:id="@+id/tvDescriptionProductDetails"
+            android:id="@+id/tvDescriptionGuideDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
