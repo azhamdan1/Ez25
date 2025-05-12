@@ -110,13 +110,13 @@ public class HomeFragment extends Fragment {
 
         Guids = new ArrayList<>();
         adapter = new GuideAdapter(getActivity(), Guids);
-        rvGuidsHome.setAdapter(adapter);fbs.getFire().collection("guids").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        rvGuidsHome.setAdapter(adapter);fbs.getFire().collection("guides").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (DocumentSnapshot dataSnapshot: queryDocumentSnapshots.getDocuments()){
-                    Guide product = dataSnapshot.toObject(Guide.class);
+                    Guide guide = dataSnapshot.toObject(Guide.class);
 
-                    Guids.add(product);
+                    Guids.add(guide);
                 }
                 adapter.notifyDataSetChanged();
             }

@@ -88,7 +88,7 @@ public class GuideDetailesFragment extends Fragment {
 
         Bundle args = getArguments();
         if (args != null) {
-            Guide = args.getParcelable("guide");
+            Guide = args.getParcelable("guides");
             if (Guide != null) {
                 tvTitle.setText(Guide.getName());
                 tvDescription.setText(Guide.getDescription());

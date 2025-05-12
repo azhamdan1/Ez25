@@ -13,7 +13,8 @@
         android:layout_marginBottom="32dp"
         android:src="@drawable/ic_menu_gallery"
         app:layout_constraintBottom_toTopOf="@+id/etTittleAddGuide"
-        tools:layout_editor_absoluteX="111dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/etTittleAddGuide"
@@ -33,17 +34,20 @@
         android:id="@+id/etDescriptionAddGuide"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="423dp"
+        android:layout_marginBottom="44dp"
         android:ems="10"
         android:hint="Description"
         android:inputType="text"
-        tools:layout_editor_absoluteX="100dp"
-        tools:layout_editor_absoluteY="423dp" />
+        app:layout_constraintBottom_toTopOf="@+id/btnAddAddProductFragment"
+        app:layout_constraintStart_toStartOf="@+id/etTittleAddGuide"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnAddAddProductFragment"
         android:layout_width="250dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="116dp"
+        android:layout_marginBottom="169dp"
         android:text="Add"
         app:backgroundTint="@color/theme_color"
         app:cornerRadius="5dp"

@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         FirebaseServices fbs = FirebaseServices.getInstance();
 
-        if (fbs.getAuth().getCurrentUser() == null) {
+        if (fbs.getAuth().getCurrentUser() != null) {
             gotoHomeFragment();
         }
         else {

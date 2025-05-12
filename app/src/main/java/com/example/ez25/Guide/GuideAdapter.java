@@ -23,13 +23,13 @@ import java.util.List;
 
 public class GuideAdapter extends RecyclerView.Adapter<GuideAdapter.ViewHolder> {
 
-    private List<Guide> productList;
+    private List<Guide> GuideList;
     private Context context;
     private FirebaseServices fbs;
     private GuideAdapter.OnItemClickListener itemClickListener;
 
-    public GuideAdapter(Context context, ArrayList<Guide> productList) {
-        this.productList = productList;
+    public GuideAdapter(Context context, ArrayList<Guide> GuideList) {
+        this.GuideList = GuideList;
         this.context = context;
         this.fbs = FirebaseServices.getInstance();
 
@@ -40,7 +40,7 @@ public class GuideAdapter extends RecyclerView.Adapter<GuideAdapter.ViewHolder> 
                 String selectedItem = filteredList.get(position).getNameCar();
                 Toast.makeText(getActivity(), "Clicked: " + selectedItem, Toast.LENGTH_SHORT).show(); */
                 Bundle args = new Bundle();
-                args.putParcelable("product", productList.get(position)); // or use Parcelable for better performance
+                args.putParcelable("guides", GuideList.get(position)); // or use Parcelable for better performance
                 GuideDetailesFragment cd = new GuideDetailesFragment();
                 cd.setArguments(args);
                 FragmentTransaction ft= ((MainActivity)context).getSupportFragmentManager().beginTransaction();
@@ -60,7 +60,7 @@ public class GuideAdapter extends RecyclerView.Adapter<GuideAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Guide guide = productList.get(position);
+        Guide guide = GuideList.get(position);
         holder.tvName.setText(guide.getName());
 
 
@@ -87,7 +87,7 @@ public class GuideAdapter extends RecyclerView.Adapter<GuideAdapter.ViewHolder> 
     }
 
     @Override
-    public int getItemCount() { return productList.size(); }
+    public int getItemCount() { return GuideList.size(); }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tvName;
@@ -96,8 +96,8 @@ public class GuideAdapter extends RecyclerView.Adapter<GuideAdapter.ViewHolder> 
 
         ViewHolder(View itemView) {
             super(itemView);
-            tvName = itemView.findViewById(R.id.tvTitleProItem);
-            ivPhoto = itemView.findViewById(R.id.ivPhotoProItem);
+            tvName = itemView.findViewById(R.id.tvTitleGuideDetails);
+            ivPhoto = itemView.findViewById(R.id.ivPhotoGuideDetails);
         }
 
         @Override

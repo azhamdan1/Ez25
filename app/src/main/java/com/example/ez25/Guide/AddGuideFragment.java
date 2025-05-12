@@ -136,7 +136,7 @@ public class AddGuideFragment extends Fragment {
                     btnAdd.setEnabled(true);
                     return;
                 }
-                DocumentReference documentReference = fbs.getFire().collection("product").document(productID);
+                DocumentReference documentReference = fbs.getFire().collection("guides").document(productID);
                 Map<String, Object> productMap = new HashMap<>();
                 productMap.put("description", description);
                 productMap.put("photo", fbs.getSelectedImageURL().toString());
@@ -173,7 +173,7 @@ public class AddGuideFragment extends Fragment {
                         ft.commit();
 
 
-                        fbs.getFire().collection("Guide").add(Guide).addOnFailureListener(new OnFailureListener() {
+                        fbs.getFire().collection("guides").add(Guide).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Log.e("Failure AddGuide: ", e.getMessage());

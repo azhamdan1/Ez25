@@ -122,28 +122,7 @@ public class SignUpFragment extends Fragment {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         Toast.makeText(getActivity(), "Succeeded", Toast.LENGTH_SHORT).show();
-
-                        //add user to database
-                        userID = fbs.getAuth().getCurrentUser().getUid();
-                        DocumentReference documentReference = fbs.getFire().collection("Users").document(userID);
-                        Map<String, Object> userMap = new HashMap<>();
-                        userMap.put("firstName", firstName);
-                        userMap.put("lastName", lastName);
-                        userMap.put("phoneNumber", phoneNumber);
-                        userMap.put("guest",false);
-                        userMap.put("admin",false);
-                        documentReference.set(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Toast.makeText(getActivity(), "User added successfully", Toast.LENGTH_SHORT).show();
-                                gotoLoginFragment();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getActivity(), "Failed to add user to database", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        gotoLoginFragment();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
