@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "188544640288",
-    "project_id": "travel-1665a",
-    "storage_bucket": "travel-1665a.firebasestorage.app"
+    "project_number": "1050464866927",
+    "project_id": "wish-i",
+    "storage_bucket": "wish-i.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:188544640288:android:f5d00492ff72bff1496345",
+        "mobilesdk_app_id": "1:1050464866927:android:c1128c2ed01fe0db1af39a",
         "android_client_info": {
           "package_name": "com.example.ez25"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDMgftZ5IZ4xSDcwu706w1m8v7_HGNpRCw"
+          "current_key": "AIzaSyAULAYu8xwT6F_3gne4Q-wOZutM_nMuQcE"
         }
       ],
       "services": {
@@ -26,15 +26,15 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:188544640288:android:1f01bfd8a7c6009f496345",
+        "mobilesdk_app_id": "1:1050464866927:android:e7688f7d75bde3491af39a",
         "android_client_info": {
-          "package_name": "com.example.travel"
+          "package_name": "com.example.wishit"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDMgftZ5IZ4xSDcwu706w1m8v7_HGNpRCw"
+          "current_key": "AIzaSyAULAYu8xwT6F_3gne4Q-wOZutM_nMuQcE"
         }
       ],
       "services": {
